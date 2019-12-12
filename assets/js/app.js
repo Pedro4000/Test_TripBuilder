@@ -59,19 +59,9 @@ $('.destination').on('input',function(){
     });
 });
 
-$('.ul-airports-destination li ').on('click',function(){
-    console.log(this);
-    console.log('bien sur');
-});
-
-$('.ul-airports-origin li ').on('click',function(){
-    console.log(this);
-
-});
-
-$('li').click(function(){
-    console.log(this);
-    console.log('ok');
+$(document).on('click', 'li', function(){
+    $(this).parent().prev().val($(this).text());
+    $(this).parent().css('display','none');
 
 });
 
