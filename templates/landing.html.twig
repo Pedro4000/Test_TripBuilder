@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="navbar">
+    <h1 class="main-title">Trip Builder</h1>
+</section>
+<div class="research-flights">
+    <p>Rechercher des vols</p>
+    <div class="list-airports">
+        <input type="text" placeholder="Ville de Départ" class="origin">
+        <ul class="ul-airports-origin">
+        </ul>
+    </div>
+    <div class="list-airports">
+        <input type="text" placeholder="Ville d'arrivée" class="destination">
+        <ul class="ul-airports-destination">
+        </ul>
+    </div>
+    <label for="start">Départ</label>
+    <input type="date" id="start" name="trip-start"
+           value="{{ "now"|date("m/d/Y") }}"
+           min="2019-12-12" max="2020-12-31" class="date-trip">
+    <button class="research-flight">Ajouter</button>
+</div>
+<div class="documentation">
+    <h1 class="documentation-title">
+        TripBuilder Api Document
+    </h1>
+    <div class="documentation-section">
+        <p>To get a list of airport by alphabetical order</p>
+        <p>Routing : <b>/get_airports?query={'String to match the wanted airport'}</b></p>
+        <p>Response in JSON format : a list of 6 airports maximum matching which names match the string</p>
+        <p>The query is not necessary, the first 6 airports by alphabetical order will be sent back if null</p>
+    </div>
+    <div class="documentation-section">
+        <p>To get a list of flight for a certain trip</p>
+        <p>Routing : <b>/get_flight/{trip_id}</b></p>
+        <p>Trip_id parameter is mandatory, will send as response JSON content correponding to the list of trip for a certain trip_id</p>
+        <p></p>
+    </div>
+    <div class="documentation-section">
+        <p>To add flight to a trip</p>
+        <p>Routing : <b>/add/flight/{date}&{origin}&{destination}&{id}</b></p>
+        <p>All parameters are mandatory, date with format d.m.Y</p>
+        <p>Will return a response {'success':true} if the flight was well saved in database</p>
+    </div>
+    <div class="documentation-section">
+        <p>To remove a flight from a trip</p>
+        <p>Routing : <b>/removeflight/{flightId}</b></p>
+        <p>FlightId parameter is mandatory (should add a trip_id parameter)</p>
+        <p>Will return a response {'success':true} if the flight was well deleted in database</p>
+    </div>
+
+</div>
+{% endblock %}
