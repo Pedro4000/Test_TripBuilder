@@ -64,6 +64,7 @@ class TripBuilderApiController extends AbstractController
 
     /**
      * @Route("/add/flight/{date}&{origin}&{destination}&{id}", name="add_flight")
+     *
      */
     public function addFlights($date = false, $origin = false, $destination = false, $id = false, Request $request)
     {

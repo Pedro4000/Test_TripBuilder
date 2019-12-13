@@ -15,8 +15,11 @@ const $ = require('jquery');
 
 console.log('yo');
 var path = "/get_airports";
-$('.origin').on('input',function() {
+var randomId = 15;
 
+
+// here the ajax request to know what airports to list under the origin input
+$('.origin').on('input',function() {
     $.ajax({
         url: "/get_airports",
         data: {'query': $('.origin').val()},
@@ -37,8 +40,8 @@ $('.origin').on('input',function() {
     });
 });
 
+// here the ajax request to know what airports to list under the destination input
 $('.destination').on('input',function(){
-
     $.ajax({
         url: "/get_airports",
         data: {'query': $('.destination').val()},
@@ -59,29 +62,52 @@ $('.destination').on('input',function(){
     });
 });
 
+// this section allows auto completion for the origin/destination inputs
 $(document).on('click', 'li', function(){
     $(this).parent().prev().val($(this).text());
     $(this).parent().css('display','none');
 
 });
 
+// the name is confusing so should be changed, this ajax request will add a flight to a trip
 $('.research-flight').click(function(){
 
-    console.log($('.origin').val());
-    console.log($('.destination').val());
-    console.log($('.date-trip').val());
+    let origin = $('.origin').val();
+    let destination = $('.destination').val();
+    let date = $('.date-trip').val().split('-');
+    date = date[2]+'.'+date[1]+'.'+date[0];
+
+    // here id to identify the trip id random as I don't have information about the user so far,
+    // i could store a random one in the local storage though
+    path = '/add/flight/'+date+'&'+origin+'&'+destination+'&'+randomId;
+    console.log(path);
 
     $.ajax({
-        url: "/addflight",
+        url: path,
         data: {'date': $('.date-trip').val(),
             'origin': $('.origin').val(),
             'destination':$('.date-trip').val(),
             'id':12
         },
         success: function (result) {
-            console.log('yolo');
+            console.log('yep');
+        },
+    });
+});
+
+
+$('.display-flights-cta').click(function(){
+    path = "/get_flight/"+randomId;
+    $.ajax({
+        url: path,
+        success: function (result) {
+            let flights= JSON.parse(result);
+            console.log(flights);
+            $('.trip-listing').append('<table class="trip-listing-table"><tr>\<th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
+            for(i=0 ; i < flights.length; i++){
+                $('.trip-listing-table').append('<tr><th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
+            }
         },
     });
 
-
-});
+    });
