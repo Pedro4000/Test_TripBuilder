@@ -103,9 +103,9 @@ $('.display-flights-cta').click(function(){
         success: function (result) {
             let flights= JSON.parse(result);
             console.log(flights);
-            $('.trip-listing').append('<table class="trip-listing-table"><tr>\<th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
+            $('.trip-listing').html('<table class="trip-listing-table"><tr>\<th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
             for(i=0 ; i < flights.length; i++){
-                $('.trip-listing-table').append('<tr><th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
+                $('.trip-listing-table').append('<tr><th>'+flights[i].origin+'</th><th>'+flights[i].destination+'</th><th>'+flights[i].date.timestamp+'</th><th><i class="fas fa-times"></i></th></tr>')
             }
         },
     });
