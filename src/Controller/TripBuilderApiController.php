@@ -18,7 +18,10 @@ class TripBuilderApiController extends AbstractController
 {
 
     /**
+     * this method will list the airport matching a certain query
      * @Route("/get_airports", name="get_airports")
+     * @param Request $request
+     * @return mixed
      */
     public function getAirports(Request $request)
     {
@@ -42,8 +45,11 @@ class TripBuilderApiController extends AbstractController
     }
 
     /**
- * @Route("/get_flight/{id}", name="get_flight")
- */
+     * this method will list the flights for a given trip id
+     * @Route("/get_flight/{id}", name="get_flight")
+     * @param int $id
+     * @return mixed
+     */
     public function getflights($id)
     {
 
@@ -63,8 +69,14 @@ class TripBuilderApiController extends AbstractController
     }
 
     /**
+     * this method will add a flight to a trip with certain parameters
      * @Route("/add/flight/{date}&{origin}&{destination}&{id}", name="add_flight")
-     *
+     * @param bool|string $date
+     * @param bool|string $origin
+     * @param bool|string $destination
+     * @param bool|int $id
+     * @param Request $request
+     * @return mixed
      */
     public function addFlights($date = false, $origin = false, $destination = false, $id = false, Request $request)
     {
@@ -93,7 +105,10 @@ class TripBuilderApiController extends AbstractController
     }
 
     /**
+     * this method will remove a flight wih a certain flight id
      * @Route("/remove/flight/{flightId}", name="remove_flight")
+     * @param int $flightId
+     * @return Response
      */
     public function removeFlight($flightId, Request $request)
     {

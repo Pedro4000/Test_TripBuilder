@@ -96,7 +96,7 @@ $('.research-flight').click(function(){
     });
 });
 
-
+// this request will list the flight for a certain trip_id given
 $('.display-flights-cta').click(function(){
     path = "/get_flight/"+randomId;
     $.ajax({
@@ -110,9 +110,28 @@ $('.display-flights-cta').click(function(){
                 let thisdate = new Date(dateInMs).toString();
                 let splitedDate = thisdate.split(' ');
                 formatedDate = splitedDate[2]+'/'+months[splitedDate[1]]+'/'+splitedDate[3];
-                $('.trip-listing-table').append('<tr><th>'+flights[i].origin+'</th><th>'+flights[i].destination+'</th><th>'+formatedDate+'</th><th><i class="fas fa-times"></i></th></tr>')
+                $('.trip-listing-table').append('<tr class="trip-line-'+flights[i].id+'"><th>'+flights[i].origin+'</th><th>'+flights[i].destination+'</th><th>'+formatedDate+'</th><th><i class="delete-flight fas fa-times flight-id-'+flights[i].id+'"></i></th></tr>')
             }
         },
     });
+});
 
-    });
+// this request will delete the flight with a given id
+$(document).on('click','.delete-flight',function(){
+    let crossClasses = $(this).attr('class').split(' ');
+    for (i=0; i< crossClasses.length ; i++){
+        if (crossClasses[i].includes('flight-id')){
+            var flightIdToDelete= crossClasses[i].split('-')[2];
+            path = '/remove/flight/'+flightIdToDelete;
+            var tripLineToRemove = '.trip-line-'+flightIdToDelete;
+            $(tripLineToRemove).remove();
+            $.ajax({
+                url: path,
+                success:function(result){
+                    $(tripLineToRemove).remove();
+                }
+            });
+            break;
+        }
+    }
+});

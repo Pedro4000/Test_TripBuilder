@@ -130,5 +130,12 @@ body{
   }
   th{
     border:1px solid black;
+    &:nth-child(4){
+      text-align: center;
+      color:#cd1e26;
+      &:hover{
+        cursor:pointer;
+      }
+    }
   }
 }
