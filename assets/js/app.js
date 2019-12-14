@@ -17,6 +17,7 @@ console.log('yo');
 var path = "/get_airports";
 var randomId = 15;
 
+months = { 'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'June':6, 'July':7, 'Aug':8, 'Sept':9, 'Oct':10, 'Nov': 11, 'Dec':12 }
 
 // here the ajax request to know what airports to list under the origin input
 $('.origin').on('input',function() {
@@ -102,10 +103,14 @@ $('.display-flights-cta').click(function(){
         url: path,
         success: function (result) {
             let flights= JSON.parse(result);
-            console.log(flights);
+
             $('.trip-listing').html('<table class="trip-listing-table"><tr>\<th>Origin</th><th>Destination</th><th>Date</th><th><i class="fas fa-times"></i></th></tr>')
             for(i=0 ; i < flights.length; i++){
-                $('.trip-listing-table').append('<tr><th>'+flights[i].origin+'</th><th>'+flights[i].destination+'</th><th>'+flights[i].date.timestamp+'</th><th><i class="fas fa-times"></i></th></tr>')
+                let dateInMs = ((flights[i].date.timestamp))*1000;
+                let thisdate = new Date(dateInMs).toString();
+                let splitedDate = thisdate.split(' ');
+                formatedDate = splitedDate[2]+'/'+months[splitedDate[1]]+'/'+splitedDate[3];
+                $('.trip-listing-table').append('<tr><th>'+flights[i].origin+'</th><th>'+flights[i].destination+'</th><th>'+formatedDate+'</th><th><i class="fas fa-times"></i></th></tr>')
             }
         },
     });
